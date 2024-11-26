@@ -1,0 +1,79 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	User Registration Test scenario with verification, valid and invalid credentials.
+
+Pre Condition	Open browser
+Post Condition	Close all browsers
+Tags	Registration, TS-1-Registration
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+# NOTE: Login credentials have been changed
+
+RegisterUrl = https://gitlab.com/users/sign_up
+FirstName = John
+LastName = Doe
+Username = JohnDoe123
+Email = john.doe@example.com
+Password = ***
+Invalid_Email = john.doe@example,com
+Empty =
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Test examples are below write test process steps for each below test case
+
+Register user with valid username and password	
+	Navigate to Register Page  RegisterUrl
+	Input First Name    FirstName
+	Input Last Name    LastName
+	Input Username    Username
+	Input Email    Email
+	Input Password    Password
+	Submit Registration Form
+	Input Verification Code	True
+	Verify Page Should Contain Welcome page
+
+
+# Negative Test examples keywords are below write test process steps for each below test case 
+
+Register user with same above username, empty password
+	Navigate to Register Page  RegisterUrl
+	Input First Name    FirstName
+	Input Last Name    LastName
+	Input Username    Username
+	Input Email    Invalid_Email
+	Input Password   Empty
+	Submit Registration Form
+	Verify That Error message should show Invalid password
+
+
+Register user with same above username, invalid email
+	Navigate to Register Page  RegisterUrl
+	Input First Name    FirstName
+	Input Last Name    LastName
+	Input Username    Username
+	Input Email    Invalid_Email
+	Input Password   Password
+	Submit Registration Form
+	Verify That Error message should show Invalid email
+
+
+Register user with same above username, without recaptcha
+	Navigate to Register Page  RegisterUrl
+	Input First Name    FirstName
+	Input Last Name    LastName
+	Input Username    Username
+	Input Email    Email
+	Input Password   Password
+	Submit Registration Form
+	Input Recaptcha	Empty
+	Verify That Error message should show Captcha is required

@@ -1,0 +1,94 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Project Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+Pre Condition	 Open browser, Login into account
+Post Condition	Close all browsers
+Tags	Project, TS-1-Project
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+CreateProjectUrl = https://gitlab.com/projects/new
+ProjectName = Test Project
+NewProjectName = Test Project2
+FirstProjectName = First project
+
+
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Test examples are below write test process steps for each below test case
+
+Create blank project
+	Navigate To Create New Project page	CreateProjectUrl
+	Select Create blank project
+	Input Project name	ProjectName
+	Submit Create Project
+	Verify Page Should Contain Project was successfully created
+
+
+Create template project
+	Navigate To Create New Project page	CreateProjectUrl
+	Select Create from template
+	Select Use template
+	Input Project name	ProjectName
+	Submit Create Project
+	Verify Page Should Contain Project was successfully imported
+
+
+Update name of template project
+	Navigate To Create New Project page	CreateProjectUrl
+	Select Create from template
+	Select Use template
+	Input Project name	ProjectName
+	Submit Create Project
+	Select Project Setting
+	Input Project name	NewProjectName
+	Submit Save changes
+	Verify Page Should Contain Project was successfully updated
+
+
+Delete template project
+	Navigate To Create New Project page	CreateProjectUrl
+	Select Create from template
+	Select Use template
+	Input Project name	ProjectName
+	Submit Create Project
+	Select Project Setting
+	Select Advanced
+	Submit Delete Project
+	Input Confirmation
+	Submit Yes, delete project
+	Verify Page Should Contain Project was successfully deleted
+
+
+Validate that message is showing Project 'First project' was successfully created.
+	Navigate To Create New Project page	CreateProjectUrl
+	Select Create blank project
+	Input Project name	FirstProjectName
+	Submit Create Project
+	Verify Page Should Contain Project 'First project' was successfully created
+
+
+# Negative Test examples are below write test process steps for each below test case
+
+Create a blank project with the previous same name
+	Navigate To Create New Project page	CreateProjectUrl
+	Select Create blank project
+	Input Project name	ProjectName
+	Submit Create Project
+	Navigate To Create New Project page	CreateProjectUrl
+	Select Create blank project
+	Input Project name	ProjectName
+	Submit Create Project
+	Verify Page Should Contain Project name has already been taken
+	
